@@ -9,6 +9,7 @@ with zipfile.ZipFile("Mentor Scheduling Form.csv.zip","r") as zip_ref:
 	zip_ref.extractall(".")
 
 # Step 2: Read resulting csv file
+# Source: https://realpython.com/python-csv/
 import csv
 with open("Mentor Scheduling Form.csv") as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter=',')
