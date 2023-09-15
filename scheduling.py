@@ -11,14 +11,26 @@ with zipfile.ZipFile("Mentor Scheduling Form.csv.zip","r") as zip_ref:
 # Step 2: Read resulting csv file
 # Source: https://realpython.com/python-csv/
 import csv
+from collections import defaultdict
+
+full_dictionary = defaultdict(list)
 with open("Mentor Scheduling Form.csv") as csv_file:
-	csv_reader = csv.reader(csv_file, delimiter=',')
-	line_count = 0
+	csv_reader = csv.DictReader(csv_file)
 	for row in csv_reader:
-		if line_count == 0:
-			print(f'Column names are {", ".join(row)}')
-			line_count += 1
-		else:
-			print(f'\n{row[0]};\t {row[1]};\t {row[2]};\t {row[3]};\t {row[4]}')
-			line_count += 1
-	print(f'Processed {line_count} lines.')
+		for (key, value) in row.items():
+			full_dictionary[key].append(value)
+
+# Step 3: Parse the csv file
+emails = full_dictionary["Username"]
+names = full_dictionary["Please enter your name:"]
+
+# event_dictionary contains the list of the events and the responses to each
+event_dictionary = dict(full_dictionary)
+del event_dictionary["Timestamp"]
+del event_dictionary["Username"]
+del event_dictionary["Please enter your name:"]
+
+# event_list contains just the list of events
+event_list = list(event_dictionary.keys())
+print(event_list)
+
