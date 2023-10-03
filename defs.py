@@ -7,7 +7,8 @@ class Mentor(object):
 	capacity = 0
 	# Responses will store how each mentor responded to each event
 	# 1 for yes, 0 for no
-	responses = [0 for i in range(len(event_list))]
+	#responses = [0 for i in range(len(event_list))]
+	responses = 0
 
 	# We need to define a function to initialize each mentor object:
 	def __init__(self, name, email, capacity, responses):
@@ -34,22 +35,20 @@ class Event(object):
 	time = ""
 	location = ""
 	need = 0
-	assigned = 0
+	assigned = ""
+	unaltered_name = ""
 	
-	def __init__(self, name, time, location, need, assigned):
+	def __init__(self, name, time, location, need, assigned, unaltered_name):
 		self.name = name
 		self.time = time
 		self.location = location
 		self.need = need
-		self.assigned = [0 for i in range(need)]
-	
-	def __repr__(self):
-		mentor_string = ""
-		if (len(assigned) > 1):
-			for i in range(need):
-				mentor_string += str(assigned[index]) + " "
-		return "Event: " + str(self.name) + " Time: " + str(self.time) + " Location: " + str(self.location) + " Need: " + str(self.need) + " Assigned: " + mentor_string
+		self.assigned = ["" for i in range(need)]
+		self.unaltered_name = unaltered_name
 
-def make_event(name, time, location, need, assigned):
-    event = Event(name, time, location, need, assigned)
+	def __repr__(self):
+		return "Event: " + str(self.name) + " Time: " + str(self.time) + " Location: " + str(self.location) + " Need: " + str(self.need) + " Assigned: " + str(self.assigned)
+
+def make_event(name, time, location, need, assigned, unaltered_name):
+    event = Event(name, time, location, need, assigned, unaltered_name)
     return event
