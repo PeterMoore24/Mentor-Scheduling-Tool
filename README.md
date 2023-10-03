@@ -9,7 +9,7 @@ A program to automatically assign mentors to the shifts that they are available 
 
   ~~Step 3.5: Organize the mentors and their responses.~~
 
-Step 4: Assign mentors to events.
+~~Step 4: Assign mentors to events.~~
 
 Step 5: Create Google Calendar-compatible output.
 
