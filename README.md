@@ -16,7 +16,8 @@ Step 5: Create Google Calendar-compatible output for events and human-readable o
 
 Completing step 5 will be enough for the initial ASU 101 events.
 
-Step 6: Convert Google Calendar-compatible output to .ics format; automatically invite mentors
+Step 6: Convert Google Calendar-compatible output to .ics format; automatically invite mentors.
+> Step 6a: Attach timestamp to output file.
 
 Step 7: Create human-readable and editable output.
 
