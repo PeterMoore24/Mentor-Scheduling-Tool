@@ -20,10 +20,10 @@ class Mentor(object):
 	# This function controls what is printed out when we call print on a mentor object (or str())
 	# Source: https://stackoverflow.com/questions/1535327/how-to-print-instances-of-a-class-using-print
 	def __repr__(self):
-		resp_str = ""
-		for i in range(len(event_list)): 
-			resp_str += str(self.responses[i])
-		return "Mentor: " + str(self.name) + " Email: " + str(self.email) + " Capacity: " + str(self.capacity) + " Responses: " + resp_str
+		# resp_str = ""
+		# for i in range(len(event_list)): 
+		# 	resp_str += str(self.responses[i])
+		return "Mentor: " + str(self.name) + " Email: " + str(self.email) + " Capacity: " + str(self.capacity) + " Responses: " + str(self.responses)
 
 def make_mentor(name, email, capacity, responses):
 	mentor = Mentor(name, email, capacity, responses)
