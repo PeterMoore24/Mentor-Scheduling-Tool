@@ -11,7 +11,7 @@ A program to automatically assign mentors to the shifts that they are available 
 
 ~~Step 4: Assign mentors to events.~~
 
-Step 5: Create Google Calendar-compatible output for events and human-readable output for list of mentors.
+~~Step 5: Create Google Calendar-compatible output for events and human-readable output for list of mentors.~~
 > Note: This will require that advisors manually add mentors to events.
 
 Completing step 5 will be enough for the initial ASU 101 events.
