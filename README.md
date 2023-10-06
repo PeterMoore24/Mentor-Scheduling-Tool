@@ -18,6 +18,7 @@ Completing step 5 will be enough for the initial ASU 101 events.
 
 Step 6: Convert Google Calendar-compatible output to .ics format; automatically invite mentors.
 > Step 6a: Attach timestamp to output file.
+> This should probably be a separate step so that advisors can manually edit the mentor assignments first.
 
 Step 7: Create human-readable and editable output.
 
