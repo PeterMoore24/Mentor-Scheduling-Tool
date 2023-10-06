@@ -3,6 +3,8 @@
 
 # defs.py defines the event and mentor objects
 import defs
+# create_lists.py defines functions to create the event_list, mentor_list, and same_time lists
+import create_lists
 
 # Step 1: Unzip the results
 # TODO: Get the filename from the command line? Just search for a .zip file in the directory?
@@ -40,91 +42,41 @@ del event_dictionary["How many shifts would you like?"]
 
 simple_event_list = list(event_dictionary.keys())
 # event_list should contain a list of all the event objects
-event_list = [0 for i in range(len(simple_event_list))]
-
-# Each event has the event, time, location, and number of mentors needed, we just need to extract that by cutting up the string with the names.
-# This part requires that the Google Form have the exact same form every time. 
-# Maybe a future version could be more flexible.
-for index in range(len(event_dictionary)):
-	unaltered_name = simple_event_list[index]
-	
-	event_name = simple_event_list[index].split("Event: ", 1)[1]
-	event_name = event_name.split("Time: ", 1)[0]
-
-	event_time = simple_event_list[index].split("Time: ", 1)[1]
-	event_time = event_time.split("Location: ", 1)[0]
-
-	event_location = simple_event_list[index].split("Location: ", 1)[1]
-	event_location = event_location.split("Mentors needed: ", 1)[0]
-
-	event_need = int(simple_event_list[index].split("Mentors needed: ", 1)[1])
-
-	blank_assigned = [0 for i in range(event_need)]
-	event_list[index] = defs.make_event(event_name, event_time, event_location, event_need, blank_assigned, unaltered_name)
+event_list = create_lists.create_event_list(simple_event_list)
 
 
 # Step 3.5: Organize the mentors and their responses.
 # Next, we need an array of those mentors so we can iterate through them
-# This mentors should be in the same order in this array as in the form - first come, first assigned
-mentor_list = [0 for i in range(len(names))]
+mentor_list = create_lists.create_mentor_list(event_dictionary, event_list, names, emails, capacities)
 
-# This section will loop through each mentor, and then loop through each response array, and create an array of that mentor's responses to every event.
-for mentor_index in range(len(names)):
-
-	mentor_response = [0 for i in range(len(event_list))]
-	for event_index in range(len(event_list)):
-
-		# These three lines could be (and originally were) one line but I split them up while debugging and found this format much more readable.
-		current_event_name = event_list[event_index].unaltered_name
-		current_event_responses = event_dictionary[current_event_name]
-		if (current_event_responses[mentor_index] == "Yes"):
-			mentor_response[event_index] = 1
-			# response is set to 0 by default, so we don't need to check for "No"
-	
-	mentor_list[mentor_index] = defs.make_mentor(names[mentor_index], emails[mentor_index], int(capacities[mentor_index]), mentor_response)
-
-# Now, we have an array of all of the mentors' names, emails, capacities, and responses - hooray!
 
 # Step 4: Assign mentors to events
-
-same_time = [False for i in range(len(event_list))]
-# Step 4a: Check for events that are at the same time - we can't assign one mentor to two events at the same time!
-for alpha_i in range(len(event_list)):
-	for beta_i in range(len(event_list)):
-		if (event_list[alpha_i].time == event_list[beta_i].time):
-			same_time[alpha_i] = True
+same_time = create_lists.check_times(event_list)
 
 # First come first serve algorithm - iterate through the events, and assign the first mentor who is available to that event
 # Continue this until the event's need is met
 mentor_index = 0
-assigned = False
+#assigned = False
 for event_index in range(len(event_list)):
 	num_assigned = 0
 	event = event_list[event_index]
-	print("Checking event " + str(event_index) + " with need " + str(event.need))
 
 	# If this event and the one after it occur at the same time, continue from where we left off with the mentors
-	if (not same_time[event_index] and (not assigned)):
+	# This should be made more complete in the future - currently assumes events are in order
+	# Assumes if a mentor is unavailable for an event at a certain time they will not be available for another event at the same time
+	if (not same_time[event_index-1]):
 		mentor_index = 0
-	elif (mentor_index >= len(mentor_list)):
-		mentor_index = 0
-		assigned = False
 
-	print("Checking mentor " + str(mentor_index))
-	print("While eval 1: " + str(event.need > 0))
-	print("While eval 2: " + str(mentor_index < len(mentor_list)))
 	# Iterate through all of the mentors and assign them to the event until either the need is met or we've run out of mentors
 	while (event.need > 0 and mentor_index < len(mentor_list)):
 		mentor = mentor_list[mentor_index]
 
-		print("Mentor responded " + str(mentor.responses[event_index]))
 		if (mentor.responses[event_index] == 1 and mentor.capacity > 0):
-			print("Assigning mentor " + str(mentor_index) + " to event " + str(event_index))
 			event.assigned[num_assigned] = mentor.name
 			num_assigned += 1
 			event.need -= 1
 			mentor.capacity -= 1
-			assigned = True
+			#assigned = True
 		
 		mentor_index += 1
 
@@ -180,22 +132,26 @@ for event in event_list:
 	calendar_file.write(calendar_event(event))
 
 mentor_file = open("assigned_mentors.csv", 'w')
-mentor_file.write("Event number,Event name,Mentors assigned,Remaining need\n")
+# This should print out more information to be more clear in the future.
+mentor_file.write("Event name,Event time,Event location,Mentors assigned,Remaining need\n")
 
-def mentor_event(event, index):
-	mentor_string = str(index) + ","
-
-	mentor_string += event.name.replace("\n", "") + ","
+def mentor_event(event):
+	mentor_string = event.name.replace("\n", "") + ","
+	mentor_string += event.time.replace("\n", "") + ","
+	mentor_string += event.location.replace("\n", "") + ","
 
 	for name in event.assigned:
-		mentor_string += name.replace("\n", "") + ";"
+ 		mentor_string += name.replace("\n", "") + "    "
 	mentor_string += ","
 
 	mentor_string += str(event.need) + "\n"
 	return mentor_string
 
-for index in range(len(event_list)):
-	mentor_file.write(mentor_event(event_list[index], index))
+for event in event_list:
+	mentor_file.write(mentor_event(event))
+	
+#for index in range(len(event_list)):
+	#mentor_file.write(mentor_event(event_list[index], index))
 
 
 
