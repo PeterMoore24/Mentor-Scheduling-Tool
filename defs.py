@@ -7,7 +7,6 @@ class Mentor(object):
 	capacity = 0
 	# Responses will store how each mentor responded to each event
 	# 1 for yes, 0 for no
-	#responses = [0 for i in range(len(event_list))]
 	responses = 0
 	yes_responses = 0
 	avg_yes_index = 0
@@ -22,9 +21,6 @@ class Mentor(object):
 	# This function controls what is printed out when we call print on a mentor object (or str())
 	# Source: https://stackoverflow.com/questions/1535327/how-to-print-instances-of-a-class-using-print
 	def __repr__(self):
-		# resp_str = ""
-		# for i in range(len(event_list)): 
-		# 	resp_str += str(self.responses[i])
 		return "Mentor: " + str(self.name) + " Email: " + str(self.email) + " Capacity: " + str(self.capacity) + " Responses: " + str(self.responses)
 
 def make_mentor(name, email, capacity, responses):
@@ -38,6 +34,7 @@ class Event(object):
 	location = ""
 	need = 0
 	assigned = ""
+	unassigned = ""
 	unaltered_name = ""
 	
 	def __init__(self, name, time, location, need, assigned, unaltered_name):
@@ -49,7 +46,7 @@ class Event(object):
 		self.unaltered_name = unaltered_name
 
 	def __repr__(self):
-		return "Event: " + str(self.name) + " Time: " + str(self.time) + " Location: " + str(self.location) + " Need: " + str(self.need) + " Assigned: " + str(self.assigned)
+		return "Event: " + str(self.name) + " Time: " + str(self.time) + " Location: " + str(self.location) + " Need: " + str(self.need) + " Assigned: " + str(self.assigned) + " Unassigned: " + str(self.unassigned)
 
 def make_event(name, time, location, need, assigned, unaltered_name):
     event = Event(name, time, location, need, assigned, unaltered_name)

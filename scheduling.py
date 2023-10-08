@@ -59,7 +59,6 @@ same_time = create_lists.check_times(event_list)
 # First come first serve algorithm - iterate through the events, and assign the first mentor who is available to that event
 # Continue this until the event's need is met
 mentor_index = 0
-#assigned = False
 for event_index in range(len(event_list)):
 	num_assigned = 0
 	event = event_list[event_index]
@@ -79,8 +78,19 @@ for event_index in range(len(event_list)):
 			num_assigned += 1
 			event.need -= 1
 			mentor.capacity -= 1
+		elif (mentor.responses[event_index] == 1):
+			event.unassigned += mentor.name + "   "
 		
 		mentor_index += 1
+	
+	# Iterate through all the remaining mentors to list them as unassigned
+	unassigned_mentor_index = mentor_index
+	while (unassigned_mentor_index < len(mentor_list)):
+		mentor = mentor_list[unassigned_mentor_index]
+
+		if (mentor.responses[event_index] == 1):
+			event.unassigned += mentor.name + "   "
+		unassigned_mentor_index += 1
 
 
 # Step 5: Create Google Calendar-readable output
@@ -135,36 +145,27 @@ for event in event_list:
 
 mentor_file = open("assigned_mentors.csv", 'w')
 # This should print out more information to be more clear in the future.
-mentor_file.write("Event name,Event time,Event location,Mentors assigned,Remaining need\n")
+mentor_file.write("Event name,Event time,Event location,Mentors assigned,Remaining need,Unassigned available mentors\n")
 
 def mentor_event(event):
+	# Name, time, location
 	mentor_string = event.name.replace("\n", "") + ","
 	mentor_string += event.time.replace("\n", "") + ","
 	mentor_string += event.location.replace("\n", "") + ","
 
+	# Assigned mentors
 	for name in event.assigned:
  		mentor_string += name.replace("\n", "") + "    "
 	mentor_string += ","
 
-	mentor_string += str(event.need) + "\n"
+	# Remaining need
+	mentor_string += str(event.need) + ","
+
+	# Unassigned available mentors
+	# Events with remaining need >= 1 and unassigned available mentors means those mentors'
+	# capacities have been met
+	mentor_string += str(event.unassigned) + "\n"
 	return mentor_string
 
 for event in event_list:
 	mentor_file.write(mentor_event(event))
-	
-#for index in range(len(event_list)):
-	#mentor_file.write(mentor_event(event_list[index], index))
-
-
-
-
-
-# Here you can see the beginning of my attempt to create a .ics event.
-# Realizing that DTSTART requires a specific format for time made me decide to just do the .csv for the ASU101 events.
-# # Along with the example given in example.ics
-# file1.write("BEGIN:VCALENDAR\n"
-# 		  + "PRODID:-//Google Inc//Google Calendar 70.9054//EN\n")
-
-# def convert_event(event):
-# 	converted = "BEGIN:VEVENT\n"
-# 	converted += "DTSTART: "

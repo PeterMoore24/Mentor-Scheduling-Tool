@@ -20,9 +20,9 @@ Step 6: Convert Google Calendar-compatible output to .ics format; automatically 
 > Step 6a: Attach timestamp to output file.
 > This should probably be a separate step so that advisors can manually edit the mentor assignments first.
 
-Step 7: Create human-readable and editable output.
+~~Step 7: Create human-readable and editable output.~~
 
-Step 8: List mentors who are also available for events yet were not chosen in the human-readable output.
+~~Step 8: List mentors who are also available for events yet were not chosen in the human-readable output.~~
 
 Step 9: If an event has only one mentor who is available for the event but they do not have the capacity to take the shift, the program should attempt to have a different mentor take one of their shifts to give them capacity to take the shift.
 

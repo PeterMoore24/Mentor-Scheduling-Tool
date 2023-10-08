@@ -1,13 +1,14 @@
-# Unsorted current remaining need: 26
+# Unsorted current remaining need: 22
 
 # Sorts the list of mentors by their capacity for shifts
-# Current remaining need: 23
+# Assign the mentors that cannot take many shifts early, save the mentors that can take many for later
+# Current remaining need: 19
 def capacity_sort(mentor_list):
     sorted_list = sorted(mentor_list, key=lambda x: x.capacity, reverse=True)
     return sorted_list
 
 # Sorts the list of mentors by how many shifts they are available for
-# Current remaining need: 27
+# Current remaining need: 23
 def responses_sort(mentor_list):
     for mentor in mentor_list:
         for response in mentor.responses:
