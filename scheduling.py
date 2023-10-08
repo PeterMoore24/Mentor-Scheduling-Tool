@@ -5,6 +5,8 @@
 import defs
 # create_lists.py defines functions to create the event_list, mentor_list, and same_time lists
 import create_lists
+# sort_mentors.py defines several functions to sort mentors
+import sort_mentors
 
 # Step 1: Unzip the results
 # TODO: Get the filename from the command line? Just search for a .zip file in the directory?
@@ -48,6 +50,7 @@ event_list = create_lists.create_event_list(simple_event_list)
 # Step 3.5: Organize the mentors and their responses.
 # Next, we need an array of those mentors so we can iterate through them
 mentor_list = create_lists.create_mentor_list(event_dictionary, event_list, names, emails, capacities)
+mentor_list = sort_mentors.capacity_sort(mentor_list)
 
 
 # Step 4: Assign mentors to events
@@ -109,20 +112,20 @@ def calendar_event(event):
 	# Start Date
 	start_date = event.time.split(" ", 1)[0]
 	calendar += "\"" + start_date.replace("\n", "") + "\","
-	# print("Start Date: |" + start_date.replace("\n", "") + "|")
+
 	# Start Time
 	full_time = event.time.split(" ", 1)[1]
 	start_time = full_time.split(" - ", 1)[0]
 	end_time = full_time.split(" - ", 1)[1]
 	calendar += "\"" + start_time.replace("\n", "") + "\","
-	# print("Start Time: |" + start_time.replace("\n", "") + "|")
+
 	# End Date
 	# This assumes that every event starts and ends on the same day
 	calendar += "\"" + start_date.replace("\n", "") + "\","
-	# print("End Date: |" + start_date.replace("\n", "") + "|")
+
 	# End Time
 	calendar += "\"" + end_time.replace("\n", "") + "\","
-	# print("End Time: |" + end_time.replace("\n", "") + "|")
+
 	# All Day Event
 	calendar += "False,\""
 	calendar += event.location.replace("\n", "") + "\"\n"
