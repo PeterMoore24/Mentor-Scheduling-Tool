@@ -79,7 +79,6 @@ for event_index in range(len(event_list)):
 			num_assigned += 1
 			event.need -= 1
 			mentor.capacity -= 1
-			#assigned = True
 		
 		mentor_index += 1
 

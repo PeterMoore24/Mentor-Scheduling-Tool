@@ -10,6 +10,7 @@ class Mentor(object):
 	#responses = [0 for i in range(len(event_list))]
 	responses = 0
 	yes_responses = 0
+	avg_yes_index = 0
 
 	# We need to define a function to initialize each mentor object:
 	def __init__(self, name, email, capacity, responses):
