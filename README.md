@@ -1,5 +1,5 @@
 # Mentor-Scheduling-Tool
-A program to automatically assign mentors to the shifts that they are available to.
+A program to automatically assign mentors to the shifts that they are available for.
 
 ~~Step 1: Unzip the downloaded .csv.zip file.~~
 
